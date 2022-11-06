@@ -9,15 +9,19 @@ use clap::{ArgGroup, Parser};
 ))]
 pub struct CliArgs {
 
+    /// The message for your new todo item to display
     #[arg(short, long, required = false)]
     pub add: Option<String>,
 
+    /// Toggle - lists your current todo items
     #[arg(short, long, default_value_t = false, required = false)]
     pub list: bool,
 
+    /// Remove all completed todo items from your list
     #[arg(short, long, default_value_t = false, required = false)]
     pub remove: bool,
 
+    /// Sets the todo item linked to the given ID as completed
     #[arg(short, long, required = false)]
     pub complete: Option<i32>,
 }
