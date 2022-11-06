@@ -3,7 +3,7 @@ A simple WIP CLI tool made in Rust for myself to practice - uses Diesel to store
 
 You can either run it with the arguments:
 
-![image](https://user-images.githubusercontent.com/83826811/200083490-f9834b72-9c9e-4f66-a8a6-79aa80ae9379.png)
+![image](https://user-images.githubusercontent.com/83826811/200171099-6698d7cc-0935-4ebf-8c3b-2059fd567e6e.png)
 
 Or without arguments and you'll end up here,
 main menu:
