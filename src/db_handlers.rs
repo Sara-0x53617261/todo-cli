@@ -1,11 +1,16 @@
+// Diesel imports - for Database / SQL
 use diesel::prelude::*;
 use diesel::SqliteConnection;
+
+// Dotenv for Database location from our .env file
 use dotenvy::dotenv;
 use std::env;
 
+// Local imports
 use crate::models::{TodoItem, NewTodoItem};
 use crate::schema::todo_items;
 
+// Add new todo item to the database
 pub fn create_todo_item(conn: &mut SqliteConnection, message: String) {
     let new_item = NewTodoItem {
         completed: false,
@@ -18,6 +23,7 @@ pub fn create_todo_item(conn: &mut SqliteConnection, message: String) {
         .expect("Error inserting new item into database");
 }
 
+// Set item with todo_id as completed
 pub fn set_todo_complete(conn: &mut SqliteConnection, todo_id: i32) {
     diesel::update(todo_items::table.find(todo_id))
         .set(todo_items::completed.eq(true))
@@ -25,6 +31,7 @@ pub fn set_todo_complete(conn: &mut SqliteConnection, todo_id: i32) {
         .expect("Error updating item in database");
 }
 
+// Get todo items -> returns Vector
 pub fn get_todo_items(conn: &mut SqliteConnection) -> Vec<TodoItem>{
     todo_items::table
         .limit(20)
@@ -32,6 +39,7 @@ pub fn get_todo_items(conn: &mut SqliteConnection) -> Vec<TodoItem>{
         .expect("Error loading items")
 }
 
+// Removes all items that are set as 'completed == true' from the database
 pub fn remove_completed(conn: &mut SqliteConnection) {
     diesel::delete(
         todo_items::table.filter(todo_items::completed.eq(true)))

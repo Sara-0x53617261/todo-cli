@@ -12,11 +12,16 @@ use clap::Parser;
 use std::process::exit;
 
 fn main() {
+    // Get startup arguments
     let args = cli_args::CliArgs::parse();
+
+    // Setup db connection
     let mut connection = db_handlers::establish_connection();
 
     
-    // Argument checks - exit after command is completed
+    // Check our arguments and execute where needed
+    // startup argument commands exit after completion
+
     match args.add {
         Some(msg) => {  // Add new todo item
             db_handlers::create_todo_item(&mut connection, msg);
@@ -50,7 +55,7 @@ fn main() {
     }
 
 
-    // No other arguments used, print the 'default' menu
+    // No other arguments used, go to the default application loop
     menu::normal_menu(&mut connection);
 
 }

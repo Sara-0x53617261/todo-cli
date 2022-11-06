@@ -15,6 +15,7 @@ use std::{
 };
 
 
+// Standard home menu - also main app loop starts here
 pub fn normal_menu(conn: &mut SqliteConnection) {
 
     // Prints the logo
@@ -28,11 +29,14 @@ pub fn normal_menu(conn: &mut SqliteConnection) {
 
         print_menu_options();
 
-        // Get input
+        // flush required here as it sometimes doesnt print properly
         print!("$> ");
         _ = io::stdout().flush();
+
+        // Read input
         io::stdin().read_line(&mut line).unwrap();
 
+        // Checks input, redirecting to the command requested
         match line.trim() {
             "a" | "add" => add(conn),
             "l" | "list" => list_todo(conn),
@@ -69,6 +73,7 @@ pub fn list_todo(conn: &mut SqliteConnection) {
     for item in todo_list {
         print!("Item: {} | ", item.id);
 
+        // if item is completed - strikethrough the text, else print normally
         match item.completed {
             true => println!("{}", strikethrough.paint(item.message)),
             false => println!("{}", item.message)
@@ -95,7 +100,7 @@ fn new_complete(conn: &mut SqliteConnection) {
 
         match buffer.trim() {
             "q" | "quit" => return,
-            a => {
+            a => {  // If input was not 'q' or 'quit' check if it is a valid i32
                 match a.parse::<i32>() {
                     Ok(i) => {
                         todo_id = i; 
